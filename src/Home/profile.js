@@ -26,7 +26,6 @@ class Profile extends Component {
           <Image
             style={styles.avatar}
             source={
-              this.props.auth.data.pictures === undefined ||
               this.props.auth.data.pictures === null
                 ? require('../Public/Assets/Image/default.jpg')
                 : {

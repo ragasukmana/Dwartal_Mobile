@@ -1,8 +1,9 @@
 import axios from 'axios';
+import {API_HOST} from 'react-native-dotenv';
 
 export const requestProduct = config => {
   return {
     type: 'GET_PRODUCT',
-    payload: axios.get('http://127.0.0.1:3003/products', config),
+    payload: axios.get(`${API_HOST}/products`, config),
   };
 };

@@ -17,7 +17,6 @@ const HeaderDrawer = props => (
         <Image
           style={styles.PicHeader}
           source={
-            props.auth.data.pictures === undefined ||
             props.auth.data.pictures === null
               ? require('../Assets/Image/default.jpg')
               : {uri: 'http://localhost:3003/' + props.auth.data.pictures}

@@ -14,6 +14,7 @@ import {connect} from 'react-redux';
 import axios from 'axios';
 import getUser from './reduxProfile/actionuser';
 import EditProfileScreen from '../Public/Component/EditProfileScreen';
+import {API_HOST} from 'react-native-dotenv';
 
 class Profile extends React.Component {
   static navigationOptions = props => ({
@@ -82,7 +83,7 @@ class Profile extends React.Component {
         name: this.state.filePath.fileName,
       });
       axios
-        .put(`http://127.0.0.1:3003/user/edituser/${id_user}`, body)
+        .put(`${API_HOST}/user/edituser/${id_user}`, body)
         .then(response => {
           if (response.status === 200) {
             ToastAndroid.showWithGravityAndOffset(
@@ -127,8 +128,7 @@ class Profile extends React.Component {
                   source={
                     this.state.filePath.uri
                       ? this.state.filePath
-                      : this.props.auth.data.pictures === undefined ||
-                        this.props.auth.data.pictures === null
+                      : this.props.auth.data.pictures === null
                       ? require('../Public/Assets/Image/default.jpg')
                       : {
                           uri:

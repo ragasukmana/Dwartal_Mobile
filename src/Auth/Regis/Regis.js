@@ -12,6 +12,7 @@ import {
 import {Text, Icon} from 'native-base';
 import axios from 'axios';
 import {connect} from 'react-redux';
+import {API_HOST} from 'react-native-dotenv';
 
 class Regis extends Component {
   static navigationOptions = {headerShown: false};
@@ -50,7 +51,7 @@ class Regis extends Component {
       );
     } else {
       axios
-        .post('http://127.0.0.1:3003/user/registration', body)
+        .post(`${API_HOST}/user/registration`, body)
         .then(response => {
           if (response.status === 200) {
             ToastAndroid.showWithGravityAndOffset(

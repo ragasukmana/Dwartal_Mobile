@@ -14,6 +14,7 @@ import {Icon} from 'native-base';
 import axios from 'axios';
 import qs from 'qs';
 import {connect} from 'react-redux';
+import {API_HOST} from 'react-native-dotenv';
 
 class Login extends Component {
   static navigationOptions = {headerShown: false};
@@ -42,15 +43,15 @@ class Login extends Component {
       );
     } else {
       axios
-        .post('http://127.0.0.1:3003/user/login', qs.stringify(body))
+        .post(`${API_HOST}/user/login`, qs.stringify(body))
         .then(response => {
           if (response.status === 200) {
             this.props.navigation.navigate('App');
             this.props.setDataLogin(response.data.data);
           }
         })
-        .catch(err => {
-          console.log(err);
+        .catch(() => {
+          ToastAndroid.SHORT('tes');
         });
     }
   };

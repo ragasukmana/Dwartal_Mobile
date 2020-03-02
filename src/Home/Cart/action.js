@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {API_HOST} from 'react-native-dotenv';
 
 export const addCart = dataCart => {
   return {
@@ -37,6 +38,6 @@ export const decreseQty = dataCart => {
 export const createOrder = body => {
   return {
     type: 'POST_CART',
-    payload: axios.post('http://127.0.0.1:3003/order/', body),
+    payload: axios.post(`${API_HOST}/order/`, body),
   };
 };
