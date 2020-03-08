@@ -2,6 +2,7 @@ import React from 'react';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createDrawerNavigator, DrawerItems} from 'react-navigation-drawer';
 import {View, Text, StyleSheet, Image} from 'react-native';
+import {Icon} from 'react-native-elements';
 import Home from '../../Home';
 import Profile from '../../Home/profile';
 import EditProfile from '../../Home/editprofile';
@@ -18,7 +19,7 @@ const HeaderDrawer = props => (
         <Image
           style={styles.PicHeader}
           source={
-            props.auth.data.pictures === null
+            !props.auth.data.pictures
               ? require('../Assets/Image/default.jpg')
               : {
                   uri: `${API_HOST}` + '/' + props.auth.data.pictures,
@@ -98,22 +99,41 @@ export default createDrawerNavigator(
     Home: {
       screen: Homescreen,
       navigationOptions: {
-        drawerIcon: ({tintColor}) => {
-          <Image />;
+        drawerIcon: () => {
+          return <Icon name="home" type="feather" />;
         },
       },
     },
     Profile: {
       screen: ProfileScreen,
+      navigationOptions: {
+        drawerIcon: () => {
+          return <Icon name="person-outline" />;
+        },
+      },
     },
     Cart: {
       screen: CartScreen,
+      navigationOptions: {
+        drawerIcon: () => {
+          return <Icon name="shopping-cart" type="feather" />;
+        },
+      },
     },
     Logout: {
       screen: Logout,
+      navigationOptions: {
+        drawerIcon: () => {
+          return <Icon name="log-out" type="feather" />;
+        },
+      },
     },
   },
   {
     contentComponent: HeaderDrawers,
+    contentOptions: {
+      activeTintColor: 'orange',
+      inactiveTintColor: 'black',
+    },
   },
 );

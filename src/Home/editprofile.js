@@ -33,7 +33,7 @@ class Profile extends React.Component {
   chooseFile = () => {
     var options = {
       title: 'Select Image',
-      quality: 1,
+      quality: 0.8,
       storageOptions: {
         skipBackup: true,
         path: 'images',
@@ -105,7 +105,7 @@ class Profile extends React.Component {
                   source={
                     this.state.filePath.uri
                       ? this.state.filePath
-                      : this.props.auth.data.pictures === null
+                      : !this.props.auth.data.pictures
                       ? require('../Public/Assets/Image/default.jpg')
                       : {
                           uri:
