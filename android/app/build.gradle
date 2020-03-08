@@ -142,9 +142,9 @@ android {
             include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
         }
     }
-    aaptOptions {
-        cruncherEnabled = false
-    }
+    // aaptOptions {
+    //     cruncherEnabled = false
+    // }
     signingConfigs {
         release {
         storeFile file('my-release-key.keystore')
