@@ -8,13 +8,13 @@ import {
   ImageBackground,
   Text,
   ScrollView,
-  ToastAndroid,
 } from 'react-native';
 import {Icon} from 'native-base';
 import axios from 'axios';
 import qs from 'qs';
 import {connect} from 'react-redux';
 import {API_HOST} from 'react-native-dotenv';
+import toast from '../../Public/Component/toast';
 
 class Login extends Component {
   static navigationOptions = {headerShown: false};
@@ -34,13 +34,7 @@ class Login extends Component {
       password,
     };
     if (username === '' || password === '') {
-      ToastAndroid.showWithGravityAndOffset(
-        'Please input your account data',
-        ToastAndroid.LONG,
-        ToastAndroid.BOTTOM,
-        25,
-        150,
-      );
+      toast('Please input your account data');
     } else {
       axios
         .post(`${API_HOST}/user/login`, qs.stringify(body))
@@ -50,8 +44,9 @@ class Login extends Component {
             this.props.setDataLogin(response.data.data);
           }
         })
-        .catch(() => {
-          ToastAndroid.SHORT('tes');
+        .catch(error => {
+          console.log(error);
+          toast('cannot login');
         });
     }
   };

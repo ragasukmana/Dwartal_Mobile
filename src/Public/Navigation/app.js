@@ -8,6 +8,7 @@ import EditProfile from '../../Home/editprofile';
 import Logout from '../../Auth/Logout/logout';
 import Cart from '../../Home/Cart/Cart';
 import {connect} from 'react-redux';
+import {API_HOST} from 'react-native-dotenv';
 
 const HeaderDrawer = props => (
   <View>
@@ -19,7 +20,9 @@ const HeaderDrawer = props => (
           source={
             props.auth.data.pictures === null
               ? require('../Assets/Image/default.jpg')
-              : {uri: 'http://localhost:3003/' + props.auth.data.pictures}
+              : {
+                  uri: `${API_HOST}` + '/' + props.auth.data.pictures,
+                }
           }
         />
       </View>
@@ -94,6 +97,11 @@ export default createDrawerNavigator(
   {
     Home: {
       screen: Homescreen,
+      navigationOptions: {
+        drawerIcon: ({tintColor}) => {
+          <Image />;
+        },
+      },
     },
     Profile: {
       screen: ProfileScreen,

@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
-  ToastAndroid,
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import {connect} from 'react-redux';
@@ -15,6 +14,7 @@ import axios from 'axios';
 import getUser from './reduxProfile/actionuser';
 import EditProfileScreen from '../Public/Component/EditProfileScreen';
 import {API_HOST} from 'react-native-dotenv';
+import toast from '../Public/Component/toast';
 
 class Profile extends React.Component {
   static navigationOptions = props => ({
@@ -40,11 +40,8 @@ class Profile extends React.Component {
       },
     };
     ImagePicker.showImagePicker(options, response => {
-      console.log('Response = ', response);
       if (response.didCancel) {
-        console.log('User Cancel Image');
       } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
       } else {
         let source = response;
         this.setState({
@@ -64,13 +61,7 @@ class Profile extends React.Component {
 
   handleEdit = id_user => {
     if (this.state.name === undefined || this.state.password === undefined) {
-      ToastAndroid.showWithGravityAndOffset(
-        'All Form must fill',
-        ToastAndroid.LONG,
-        ToastAndroid.BOTTOM,
-        0,
-        150,
-      );
+      toast('All Form must fill');
     } else {
       let body = new FormData();
       body.append('username', this.props.auth.data.username);
@@ -86,26 +77,12 @@ class Profile extends React.Component {
         .put(`${API_HOST}/user/edituser/${id_user}`, body)
         .then(response => {
           if (response.status === 200) {
-            ToastAndroid.showWithGravityAndOffset(
-              'Edit Success',
-              ToastAndroid.LONG,
-              ToastAndroid.BOTTOM,
-              0,
-              150,
-            );
-            console.log(response.data);
+            toast('Edit Success');
             this.props.updateProfile(response.data.data);
           }
         })
-        .catch(err => {
-          ToastAndroid.showWithGravityAndOffset(
-            'Photo must less than 3 Mb and photo type only (jpg,png,jpeg)',
-            ToastAndroid.LONG,
-            ToastAndroid.BOTTOM,
-            0,
-            150,
-          );
-          console.log(err);
+        .catch(error => {
+          toast('Photo must less than 3 Mb and photo type only (jpg,png,jpeg)');
         });
     }
   };
@@ -132,8 +109,7 @@ class Profile extends React.Component {
                       ? require('../Public/Assets/Image/default.jpg')
                       : {
                           uri:
-                            'http://localhost:3003/' +
-                            this.props.auth.data.pictures,
+                            `${API_HOST}` + '/' + this.props.auth.data.pictures,
                         }
                   }
                 />

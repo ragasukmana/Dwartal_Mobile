@@ -12,6 +12,7 @@ import {requestProduct} from './action';
 import HomeScreen from '../Public/Component/HomeScreen';
 import NumberFormat from 'react-number-format';
 import {addCart} from './Cart/action';
+import {API_HOST} from 'react-native-dotenv';
 
 class Home extends Component {
   componentDidMount() {
@@ -54,7 +55,7 @@ class Home extends Component {
                           <Image
                             style={styles.imagecard}
                             source={{
-                              uri: 'http://localhost:3003/' + item.image,
+                              uri: `${API_HOST}` + '/' + item.image,
                             }}
                           />
                         </CardItem>

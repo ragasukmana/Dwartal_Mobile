@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import Moment from 'moment';
 import getUser from './reduxProfile/actionuser';
 import ProfileScreen from '../Public/Component/ProfileScreen';
+import {API_HOST} from 'react-native-dotenv';
 
 class Profile extends Component {
   static navigationOptions = props => ({
@@ -29,8 +30,7 @@ class Profile extends Component {
               this.props.auth.data.pictures === null
                 ? require('../Public/Assets/Image/default.jpg')
                 : {
-                    uri:
-                      'http://localhost:3003/' + this.props.auth.data.pictures,
+                    uri: `${API_HOST}` + '/' + this.props.auth.data.pictures,
                   }
             }
           />

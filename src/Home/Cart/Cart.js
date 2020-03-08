@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
-  ToastAndroid,
 } from 'react-native';
 import {Text, Icon} from 'native-base';
 import {connect} from 'react-redux';
@@ -18,7 +17,9 @@ import {
   emptyCart,
 } from './action';
 import CartSreen from '../../Public/Component/CartScreen';
-import Modal, {ModalTitle, ModalContent} from 'react-native-modals';
+import Modal, {ModalTitle} from 'react-native-modals';
+import {API_HOST} from 'react-native-dotenv';
+import toast from '../../Public/Component/toast';
 
 class Cart extends Component {
   static navigationOptions = props => ({
@@ -34,25 +35,15 @@ class Cart extends Component {
       user_id: this.props.auth.data.id_user,
       order: this.props.ListCart.cartList,
     };
+    this.setState({modalTakeOrders: true});
     this.props
       .dispatch(createOrder(body))
       .then(response => {
-        // this.setState({modalTakeOrders: true});
-        this.props.dispatch(emptyCart());
-        ToastAndroid.showWithGravity(
-          'Order Set, Thank You',
-          ToastAndroid.LONG,
-          ToastAndroid.BOTTOM,
-        );
-        // this.props.dispatch(emptyCart(response));
+        toast('Order Set, Thank You');
       })
-      .catch(err => {
-        ToastAndroid.showWithGravity(
-          'Order Failed',
-          ToastAndroid.LONG,
-          ToastAndroid.BOTTOM,
-        );
-        console.log(err);
+      .catch(error => {
+        console.log(error);
+        toast('Order Failed');
       });
   };
   render() {
@@ -72,7 +63,7 @@ class Cart extends Component {
                     <Image
                       style={styles.PicProduct}
                       source={{
-                        uri: 'http://localhost:3003/' + item.image,
+                        uri: `${API_HOST}` + '/' + item.image,
                       }}
                     />
                   </View>
@@ -153,7 +144,6 @@ class Cart extends Component {
             <Text style={styles.TextTax}>Include tax 10%</Text>
             <TouchableOpacity
               onPress={() => {
-                // this.setState({modalTakeOrders: true});
                 this.handleTakeOut();
               }}>
               <View style={styles.HeaderTakeOrder}>
@@ -162,27 +152,16 @@ class Cart extends Component {
             </TouchableOpacity>
           </View>
 
-          <Modal.BottomModal
-            visible={this.state.modalTakeOrders}
-            onTouchOutside={() => {
-              this.setState({modalTakeOrders: false});
-            }}
-            height={0.5}
-            width={1}
-            onSwipeOut={() => this.setState({modalTakeOrders: false})}
-            modalTitle={<ModalTitle title="Notice" hasTitleBar />}>
-            <ModalContent>
-              <Text>Pesanan Berhasil</Text>
-            </ModalContent>
-          </Modal.BottomModal>
-
-          {/* <Modal
+          <Modal
             transparent={false}
             width={0.8}
             height={0.8}
             visible={this.state.modalTakeOrders}
             onTouchOutside={() => {
               this.setState({modalTakeOrders: false});
+            }}
+            onDismiss={() => {
+              this.props.dispatch(emptyCart(this.props.ListCart.cartList));
             }}
             modalTitle={<ModalTitle title="Invoice" align="center" />}>
             <ScrollView>
@@ -236,15 +215,7 @@ class Cart extends Component {
               />
               <Text style={styles.invoTax}>Include tax 10%</Text>
             </View>
-            <TouchableOpacity
-              onPress={() => {
-                this.setState({modalTakeOrders: false});
-              }}>
-              <View style={styles.buttonInvo}>
-                <Text style={styles.buttonDone}>Done</Text>
-              </View>
-            </TouchableOpacity>
-          </Modal> */}
+          </Modal>
         </View>
       </View>
     );
